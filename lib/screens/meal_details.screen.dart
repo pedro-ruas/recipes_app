@@ -3,9 +3,14 @@ import 'package:recipes_app/models/meal.model.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class MealDetailsScreen extends StatelessWidget {
-  const MealDetailsScreen({super.key, required this.meal});
+  const MealDetailsScreen({
+    super.key,
+    required this.meal,
+    required this.onToggleFavorite,
+  });
 
   final Meal meal;
+  final Function(Meal) onToggleFavorite;
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +20,14 @@ class MealDetailsScreen extends StatelessWidget {
           meal.title,
           style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              onToggleFavorite(meal);
+            },
+            icon: Icon(Icons.star),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -57,7 +70,10 @@ class MealDetailsScreen extends StatelessWidget {
               children: [
                 for (final step in meal.steps)
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
                     child: Text(
                       step,
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
